@@ -180,11 +180,48 @@ evals %>%
 9.  Fit a new linear model called `score_gender_fit` to predict average professor evaluation `score` based on `gender` of the professor.
     Based on the regression output, write the linear model and interpret the slope and intercept in context of the data.
 
+```{r}
+
+score_gender_fit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score~gender, data=evals) %>%
+  tidy()
+
+score_gender_fit
+
+```
+***The model is: ***
+***score = 4.09 + 0.14* Male***
+***A male professor on average scores 0.14 higher on evaluations than a female professor. On average a female professor scores 4.09 on the ratings.***
+
+
 10. What is the equation of the line corresponding to male professors?
     What is it for female professors?
 
+***For males***
+***score = 4.09 + 0.14 = 4.23***
+
+***For females***
+***score = 4.09***
+
 11. Fit a new linear model called `score_rank_fit` to predict average professor evaluation `score` based on `rank` of the professor.
     Based on the regression output, write the linear model and interpret the slopes and intercept in context of the data.
+
+```{r}
+score_rank_fit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(score~rank, data=evals) %>%
+  tidy()
+
+score_rank_fit
+
+```
+***The model is***
+***score = 4.28 - 0.12xTenure Track - 0.14x Tenured***
+
+$$\widehat{score}-i = 4.28 - 0.12\times TenureTrack_i - 0.14\times Tenured_i$$
+
+***The average rating for a teaching track professor is 4.28. The average rating for a tenure track professor is 0.12 points lower than a teaching track professor. The average rating for a tenured professor is 0.14 points lower than a teaching professor.***
 
 12. Create a new variable called `rank_relevel` where `"tenure track"` is the baseline level.
 
