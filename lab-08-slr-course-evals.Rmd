@@ -7,7 +7,7 @@ link-citations: true
 ---
 
 ```{r include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(eval = TRUE)
 ```
 
 Many college courses conclude by giving students the opportunity to evaluate the course and the instructor anonymously.
@@ -69,6 +69,24 @@ You can also find this information [here](https://www.openintro.org/data/index.p
     Is this what you expected to see?
     Why, or why not?
     Include any summary statistics and visualizations you use in your response.
+    
+```{r}
+
+evals %>%
+  ggplot(aes(x=score)) +
+  geom_histogram()
+
+
+evals %>%
+  summarize(means = mean(score), medians = median(score), mins = min(score), maxs = max(score), sds = sd(score),
+            q1 = quantile(score, probs = 0.25),
+            q3 = quantile(score, probs=0.75))
+
+
+```
+
+***Yes, the data is skewed. The lower scores compared to the higher are very small, which could result in students having a more favorable outlook on the course. I would expect students to rank classes higher.***
+
 
 2.  Visualize and describe the relationship between `score` and `bty_avg`.
 
@@ -76,8 +94,37 @@ You can also find this information [here](https://www.openintro.org/data/index.p
 **Hint:** See the help page for the function at http://ggplot2.tidyverse.org/reference/index.html.
 ```
 
+```{r}
+evals %>%
+  ggplot(aes(x=bty_avg, y=score)) +
+  geom_smooth(method = "lm",
+            se=FALSE) +
+   geom_point(alpha=0.4) +
+  xlab("Beauty Average Rating") +
+  ylab("Average Professor Evalutation") +
+  ggtitle("Scatter plot of Average Beauty Rating to Average Evaluation Score")
+
+```
+
+***There is a slight increase of evaluation score due to beauty rating. It is not super high, but it creates a positive relationship***
+
+
 3.  Recreate the scatterplot from Exercise 2, but this time use\
     `geom_jitter()`? What does "jitter" mean? What was misleading about the initial scatterplot?
+    
+```{r}
+evals %>%
+  ggplot(aes(x=bty_avg, y=score)) +
+  geom_jitter(method = "lm",
+            se=FALSE) +
+   geom_point(alpha=0.4) +
+  xlab("Beauty Average Rating") +
+  ylab("Average Professor Evalutation") +
+  ggtitle("Scatter plot of Average Beauty Rating to Average Evaluation Score")
+
+```
+
+***The initial plot did not show how many dots landed on a specific point, so it was misleading*** 
 
 🧶 ✅ ⬆️ *If you haven't done so recently, knit, commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
